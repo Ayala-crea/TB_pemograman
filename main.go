@@ -15,8 +15,8 @@ func main() {
 	router := routes.NewRouter(db)
 
 	// Menjalankan server
-	log.Println("Server berjalan pada port 3000")
-	err := http.ListenAndServe(":3000", router)
+	log.Println("Server berjalan pada port 8089")
+	err := http.ListenAndServe(":8089", router)
 	if err != nil {
 		log.Fatalf("Server gagal berjalan: %s", err)
 	}
