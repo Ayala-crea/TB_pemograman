@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 22, 2024 at 08:31 AM
+-- Generation Time: Jun 22, 2024 at 11:31 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -32,12 +32,16 @@ CREATE TABLE `categories` (
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `categories`
+-- Table structure for table `itemcategories`
 --
 
-INSERT INTO `categories` (`id_category`, `name`) VALUES
-(1, 'makanan');
+CREATE TABLE `itemcategories` (
+  `id_item` int(10) UNSIGNED NOT NULL,
+  `id_category` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -58,7 +62,26 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id_items`, `name`, `quantity`, `category_id`, `created_at`) VALUES
-(1, 'wafer', 10, 1, '2024-06-22 06:30:33');
+(1, 'Body Soap', 50, 1, '2024-06-22 08:39:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id_role` int(10) UNSIGNED NOT NULL,
+  `role_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id_role`, `role_name`) VALUES
+(1, 'admin'),
+(2, 'user');
 
 -- --------------------------------------------------------
 
@@ -94,18 +117,23 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id_category`);
 
 --
+-- Indexes for table `itemcategories`
+--
+ALTER TABLE `itemcategories`
+  ADD PRIMARY KEY (`id_item`,`id_category`),
+  ADD KEY `id_category` (`id_category`);
+
+--
 -- Indexes for table `items`
 --
 ALTER TABLE `items`
   ADD PRIMARY KEY (`id_items`);
 
 --
--- Indexes for table `users`
+-- Indexes for table `roles`
 --
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id_user`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id_role`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -115,7 +143,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `items`
@@ -124,10 +152,21 @@ ALTER TABLE `items`
   MODIFY `id_items` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT for table `roles`
 --
-ALTER TABLE `users`
-  MODIFY `id_user` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `roles`
+  MODIFY `id_role` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `itemcategories`
+--
+ALTER TABLE `itemcategories`
+  ADD CONSTRAINT `itemcategories_ibfk_1` FOREIGN KEY (`id_item`) REFERENCES `items` (`id_items`) ON DELETE CASCADE,
+  ADD CONSTRAINT `itemcategories_ibfk_2` FOREIGN KEY (`id_category`) REFERENCES `categories` (`id_category`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

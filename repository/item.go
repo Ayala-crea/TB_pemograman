@@ -44,3 +44,21 @@ func GetItem(db *gorm.DB) (*model.Items, error) {
 	}
 	return &item, nil
 }
+
+func GetItemById(db *gorm.DB, id string) (model.Items, error) {
+	var item model.Items
+	if err := db.First(&item, "id_items = ?", id).Error; err != nil {
+		return item, err
+	}
+	return item, nil
+}
+
+
+func GetItemByIdCategory(db *gorm.DB, id string) (model.Items, error) {
+	var item model.Items
+	// Mencari item berdasarkan id_category
+	if err := db.Where("category_id = ?", id).First(&item).Error; err != nil {
+		return item, err
+	}
+	return item, nil
+}

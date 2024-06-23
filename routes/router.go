@@ -21,6 +21,11 @@ func NewRouter(db *gorm.DB) *mux.Router {
 
 	router.HandleFunc("/item", controller.CreateItems(db)).Methods("POST")
 	router.HandleFunc("/item", controller.GetItem(db)).Methods("GET")
+	router.HandleFunc("/item/id", controller.GetItemById(db)).Methods("GET")
+	router.HandleFunc("/item/categoryId", controller.GetItemByIdCategory(db)).Methods("GET")
+
+	router.HandleFunc("/item/category", controller.CreateCategory(db)).Methods("POST")
+	router.HandleFunc("/item/category", controller.GetCategoryById(db)).Methods("GET")
 
 	return router
 }
